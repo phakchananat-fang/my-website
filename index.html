@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>คำนวนเงินเดือนโรงหลอม</title>
 <style>
-  /* Reset และฟอนต์ */
   body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background: #f0f4f8;
@@ -97,7 +96,6 @@
     min-height: 140px;
   }
 
-  /* Responsive */
   @media (max-width: 460px) {
     .form-container {
       grid-template-columns: 1fr;
@@ -187,10 +185,9 @@
     </div>
     <button onclick="calculate()">คำนวณ</button>
   </div>
-  <div id="result">
-    ผลลัพธ์จะแสดงที่นี่
-  </div>
+  <div id="result">ผลลัพธ์จะแสดงที่นี่</div>
 </div>
+
 <script>
 function calculate() {
   const base = parseFloat(document.getElementById("baseSalary").value) || 0;
@@ -241,15 +238,13 @@ function calculate() {
 
   document.getElementById("result").textContent =
     `เงินเดือนพื้นฐาน: ${base.toFixed(2)} บาท\n` +
-    `จำนวนวันทำงาน (รวม): ${totalWorkDays.toFixed(2)} วัน\n` +
-    `ค่ากะเข้าดึก: ${totalNightShiftAllowance.toFixed(2)} บาท\n` +
-    `ค่าเบี้ยความร้อน: ${totalHeatAllowance.toFixed(2)} บาท\n` +
-    `เงิน OT รวม: ${otPay.toFixed(2)} บาท\n` +
-    `เบี้ยขยัน + ค่าครองชีพ + ค่าเช่าบ้าน + ค่าน้ำมัน + ค่าใบเซอร์โฟล์คลิฟท์: ${totalAllowance.toFixed(2)} บาท\n` +
-    `หักประกันสังคมและรายการหักอื่นๆ: ${totalDeduct.toFixed(2)} บาท\n` +
-    `หักลากิจไม่รับค่าจ้าง (${leaveUnpaidDays} วัน): ${unpaidLeaveDeduct.toFixed(2)} บาท\n` +
-    `หักลาป่วยไม่มีใบรับรอง (${leaveSickNoCertDays} วัน): ${sickNoCertDeduct.toFixed(2)} บาท\n` +
-    `\n=> เงินเดือนสุทธิ: ${totalSalary.toFixed(2)} บาท`;
+    `จำนวนวันทำงาน (รวม): ${totalWorkDays.toFixed(0)} วัน\n` +
+    `ค่ากะดึก: ${totalNightShiftAllowance.toFixed(2)} บาท\n` +
+    `ค่าความร้อน: ${totalHeatAllowance.toFixed(2)} บาท\n` +
+    `ค่าล่วงเวลา (OT): ${otPay.toFixed(2)} บาท\n` +
+    `รวมเบี้ย/สวัสดิการอื่นๆ: ${totalAllowance.toFixed(2)} บาท\n` +
+    `รวมรายการหัก: ${totalDeduct.toFixed(2)} บาท\n` +
+    `\nเงินเดือนสุทธิ: ${totalSalary.toFixed(2)} บาท`;
 }
 </script>
 </body>
