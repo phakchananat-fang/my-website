@@ -5,83 +5,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>คำนวนเงินเดือนโรงหลอม</title>
 <style>
+  /* Reset และฟอนต์ */
   body {
-    font-family: sans-serif;
-    margin: 20px;
-    padding: 20px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    padding: 20px 10px;
+    color: #333;
+    line-height: 1.5;
   }
+
   h2 {
-    margin-bottom: 20px;
+    text-align: center;
+    color: #004a99;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 1.8rem;
   }
+
   .wrapper {
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    max-width: 480px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 25px 30px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   }
+
   .form-container {
-    flex: 1 1 600px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 20px;
   }
+
   .input-group {
     display: flex;
     flex-direction: column;
-    width: calc(33.33% - 13.3px);
-    min-width: 150px;
   }
+
   label {
-    margin-bottom: 6px;
     font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 6px;
+    color: #003366;
   }
-  input {
-    padding: 6px;
-    font-size: 14px;
+
+  input[type=number] {
+    padding: 10px 12px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: 1.8px solid #b0c4de;
+    transition: border-color 0.3s ease;
   }
+
+  input[type=number]:focus {
+    border-color: #004a99;
+    outline: none;
+    box-shadow: 0 0 6px #82aaff88;
+  }
+
   button {
-    height: 36px;
-    margin-top: auto;
+    grid-column: 1 / -1;
+    padding: 14px 0;
+    font-size: 1.2rem;
+    font-weight: 700;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 12px;
     cursor: pointer;
-    padding: 0 16px;
-    flex-grow: 1;
-    max-width: 150px;
+    box-shadow: 0 5px 10px rgba(0,123,255,0.4);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 10px;
   }
+
+  button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 7px 15px rgba(0,86,179,0.6);
+  }
+
   #result {
-    white-space: pre-line;
+    margin-top: 30px;
+    padding: 20px;
+    background: #e6f0ff;
+    border-left: 6px solid #007bff;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 16px;
-    color: #1a7f37;
-    min-width: 320px;
-    border-left: 3px solid #007bff;
-    padding-left: 15px;
+    font-size: 1.1rem;
+    white-space: pre-line;
+    color: #004080;
+    min-height: 140px;
   }
-  @media (max-width: 900px) {
-    .input-group {
-      width: calc(50% - 10px);
-    }
-  }
-  @media (max-width: 600px) {
-    .wrapper {
-      flex-direction: column;
-    }
-    #result {
-      border-left: none;
-      border-top: 3px solid #007bff;
-      padding-left: 0;
-      padding-top: 10px;
-      margin-top: 20px;
-      min-width: auto;
-    }
-    .input-group {
-      width: 100%;
+
+  /* Responsive */
+  @media (max-width: 460px) {
+    .form-container {
+      grid-template-columns: 1fr;
     }
     button {
-      max-width: 100%;
+      font-size: 1.3rem;
+      padding: 16px 0;
     }
   }
 </style>
@@ -127,8 +150,32 @@
       <input type="number" id="ot3" placeholder="0" step="0.1" min="0" />
     </div>
     <div class="input-group">
+      <label for="bonusDiligence">เบี้ยขยัน (บาท):</label>
+      <input type="number" id="bonusDiligence" placeholder="0" />
+    </div>
+    <div class="input-group">
+      <label for="costOfLiving">ค่าครองชีพ (บาท):</label>
+      <input type="number" id="costOfLiving" placeholder="0" />
+    </div>
+    <div class="input-group">
+      <label for="rent">ค่าเช่าบ้าน (บาท):</label>
+      <input type="number" id="rent" placeholder="0" />
+    </div>
+    <div class="input-group">
+      <label for="fuel">ค่าน้ำมัน (บาท):</label>
+      <input type="number" id="fuel" placeholder="0" />
+    </div>
+    <div class="input-group">
+      <label for="forkliftCert">ค่าใบเซอร์โฟล์คลิฟท์ (บาท):</label>
+      <input type="number" id="forkliftCert" placeholder="0" />
+    </div>
+    <div class="input-group">
       <label for="deduction">รายการหักอื่นๆ (บาท):</label>
       <input type="number" id="deduction" placeholder="500" />
+    </div>
+    <div class="input-group">
+      <label for="socialSecurity">ประกันสังคม (บาท):</label>
+      <input type="number" id="socialSecurity" placeholder="0" />
     </div>
     <div class="input-group">
       <label for="leaveUnpaid">ลากิจไม่รับค่าจ้าง (วัน):</label>
@@ -152,39 +199,57 @@ function calculate() {
   const nightShiftAllowance = parseFloat(document.getElementById("nightShiftAllowance").value) || 0;
   const heatAllowance = parseFloat(document.getElementById("heatAllowance").value) || 0;
   const deductInput = parseFloat(document.getElementById("deduction").value) || 0;
+  const socialSecurity = parseFloat(document.getElementById("socialSecurity").value) || 0;
   const ot1Hours = parseFloat(document.getElementById("ot1").value) || 0;
   const ot15Hours = parseFloat(document.getElementById("ot15").value) || 0;
   const ot2Hours = parseFloat(document.getElementById("ot2").value) || 0;
   const ot3Hours = parseFloat(document.getElementById("ot3").value) || 0;
+  const bonusDiligence = parseFloat(document.getElementById("bonusDiligence").value) || 0;
+  const costOfLiving = parseFloat(document.getElementById("costOfLiving").value) || 0;
+  const rent = parseFloat(document.getElementById("rent").value) || 0;
+  const fuel = parseFloat(document.getElementById("fuel").value) || 0;
+  const forkliftCert = parseFloat(document.getElementById("forkliftCert").value) || 0;
   const leaveUnpaidDays = parseFloat(document.getElementById("leaveUnpaid").value) || 0;
   const leaveSickNoCertDays = parseFloat(document.getElementById("leaveSickNoCert").value) || 0;
+
   const totalWorkDays = workDaysMorning + workDaysNight;
   const dailyWage = base / 30;
   const hourlyWage = dailyWage / 8;
+
   const otPay =
     ot1Hours * hourlyWage * 1.0 +
     ot15Hours * hourlyWage * 1.5 +
     ot2Hours * hourlyWage * 2.0 +
     ot3Hours * hourlyWage * 3.0;
+
   const totalNightShiftAllowance = nightShiftAllowance * workDaysNight;
   const totalHeatAllowance = heatAllowance * totalWorkDays;
+
   const unpaidLeaveDeduct = dailyWage * leaveUnpaidDays;
   const sickNoCertDeduct = dailyWage * leaveSickNoCertDays;
-  const totalDeduct = deductInput + unpaidLeaveDeduct + sickNoCertDeduct;
+  const totalDeduct = deductInput + unpaidLeaveDeduct + sickNoCertDeduct + socialSecurity;
+
+  const totalAllowance = bonusDiligence + costOfLiving + rent + fuel + forkliftCert;
+
   const totalSalary =
-    base + totalNightShiftAllowance + totalHeatAllowance + otPay - totalDeduct;
+    base +
+    otPay +
+    totalNightShiftAllowance +
+    totalHeatAllowance +
+    totalAllowance -
+    totalDeduct;
 
   document.getElementById("result").textContent =
     `เงินเดือนพื้นฐาน: ${base.toFixed(2)} บาท\n` +
-    `รวมวันทำงาน: ${totalWorkDays} วัน (กะเช้า ${workDaysMorning} + กะดึก ${workDaysNight})\n` +
-    `ค่ากะดึก: ${totalNightShiftAllowance.toFixed(2)} บาท\n` +
-    `ค่าความร้อน: ${totalHeatAllowance.toFixed(2)} บาท\n` +
-    `ค่าล่วงเวลา: ${otPay.toFixed(2)} บาท\n` +
-    `รายการหักอื่นๆ: ${deductInput.toFixed(2)} บาท\n` +
-    `หักลากิจไม่รับค่าจ้าง: ${unpaidLeaveDeduct.toFixed(2)} บาท\n` +
-    `หักลาป่วยไม่มีใบรับรอง: ${sickNoCertDeduct.toFixed(2)} บาท\n` +
-    `-------------------------------\n` +
-    `เงินเดือนสุทธิ: ${totalSalary.toFixed(2)} บาท`;
+    `จำนวนวันทำงาน (รวม): ${totalWorkDays.toFixed(2)} วัน\n` +
+    `ค่ากะเข้าดึก: ${totalNightShiftAllowance.toFixed(2)} บาท\n` +
+    `ค่าเบี้ยความร้อน: ${totalHeatAllowance.toFixed(2)} บาท\n` +
+    `เงิน OT รวม: ${otPay.toFixed(2)} บาท\n` +
+    `เบี้ยขยัน + ค่าครองชีพ + ค่าเช่าบ้าน + ค่าน้ำมัน + ค่าใบเซอร์โฟล์คลิฟท์: ${totalAllowance.toFixed(2)} บาท\n` +
+    `หักประกันสังคมและรายการหักอื่นๆ: ${totalDeduct.toFixed(2)} บาท\n` +
+    `หักลากิจไม่รับค่าจ้าง (${leaveUnpaidDays} วัน): ${unpaidLeaveDeduct.toFixed(2)} บาท\n` +
+    `หักลาป่วยไม่มีใบรับรอง (${leaveSickNoCertDays} วัน): ${sickNoCertDeduct.toFixed(2)} บาท\n` +
+    `\n=> เงินเดือนสุทธิ: ${totalSalary.toFixed(2)} บาท`;
 }
 </script>
 </body>
