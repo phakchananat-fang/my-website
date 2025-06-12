@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>คำนวนเงินเดือนโรงหลอม</title>
+<style>
+  body {
+    font-family: sans-serif;
+    margin: 20px;
+    padding: 20px;
+  }
+  h2 {
+    margin-bottom: 20px;
+  }
+  .wrapper {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .form-container {
+    flex: 1 1 600px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    width: calc(33.33% - 13.3px);
+    min-width: 150px;
+  }
+  label {
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  input {
+    padding: 6px;
+    font-size: 14px;
+  }
+  button {
+    height: 36px;
+    margin-top: auto;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0 16px;
+    flex-grow: 1;
+    max-width: 150px;
+  }
+  #result {
+    white-space: pre-line;
+    font-weight: 600;
+    font-size: 16px;
+    color: #1a7f37;
+    min-width: 320px;
+    border-left: 3px solid #007bff;
+    padding-left: 15px;
+  }
+  @media (max-width: 900px) {
+    .input-group {
+      width: calc(50% - 10px);
+    }
+  }
+  @media (max-width: 600px) {
+    .wrapper {
+      flex-direction: column;
+    }
+    #result {
+      border-left: none;
+      border-top: 3px solid #007bff;
+      padding-left: 0;
+      padding-top: 10px;
+      margin-top: 20px;
+      min-width: auto;
+    }
+    .input-group {
+      width: 100%;
+    }
+    button {
+      max-width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h2>คำนวนเงินเดือนโรงหลอม</h2>
+
+<div class="wrapper">
+  <div class="form-container">
+    <div class="input-group">
+      <label for="baseSalary">เงินเดือนพื้นฐาน (บาท):</label>
+      <input type="number" id="baseSalary" placeholder="15000" />
+    </div>
+
+    <div class="input-group">
+      <label for="workDaysMorning">จำนวนวันทำงานกะเช้า (วัน):</label>
+      <input type="number" id="workDaysMorning" placeholder="15" />
+    </div>
+
+    <div class="input-group">
+      <label for="workDaysNight">จำนวนวันทำงานกะดึก (วัน):</label>
+      <input type="number" id="workDaysNight" placeholder="11" />
+    </div>
+
+    <div class="input-group">
+      <label for="nightShiftAllowance">ค่ากะเข้าดึก (บาท/วัน):</label>
+      <input type="number" id="nightShiftAllowance" value="100" />
+    </div>
+
+    <div class="input-group">
+      <label for="heatAllowance">ค่าความร้อน (บาท/วัน):</label>
+      <input type="number" id="heatAllowance" value="15" />
+    </div>
+
+    <div class="input-group">
+      <label for="ot1">จำนวนชั่วโมง OT1 (ชั่วโมง):</label>
+      <input type="number" id="ot1" placeholder="0" step="0.1" min="0" />
+    </div>
+    <div class="input-group">
+      <label for="ot15">จำนวนชั่วโมง OT1.5 (ชั่วโมง):</label>
+      <input type="number" id="ot15" placeholder="0" step="0.1" min="0" />
+    </div>
+    <div class="input-group">
+      <label for="ot2">จำนวนชั่วโมง OT2 (ชั่วโมง):</label>
+      <input type="number" id="ot2" placeholder="0" step="0.1" min="0" />
+    </div>
+    <div class="input-group">
+      <label for="ot3">จำนวนชั่วโมง OT3 (ชั่วโมง):</label>
+      <input type="number" id="ot3" placeholder="0" step="0.1" min="0" />
+    </div>
+
+    <div class="input-group">
+      <label for="deduction">รายการหักอื่นๆ (บาท):</label>
+      <input type="number" id="deduction" placeholder="500" />
+    </div>
+
+    <div class="input-group">
+      <label for="leaveUnpaid">ลากิจไม่รับค่าจ้าง (วัน):</label>
+      <input type="number" id="leaveUnpaid" placeholder="0" step="1" min="0" />
+    </div>
+
+    <div class="input-group">
+      <label for="leaveSickNoCert">ลาป่วยไม่มีใบรับรอง (วัน):</label>
+      <input type="number" id="leaveSickNoCert" placeholder="0" step="1" min="0" />
+    </div>
+
+    <button onclick="calculate()">คำนวณ</button>
+  </div>
+
+  <div id="result">
+    ผลลัพธ์จะแสดงที่นี่
+  </div>
+</div>
+
+<script>
+function calculate() {
+  const base = parseFloat(document.getElementById("baseSalary").value) || 0;
+  const workDaysMorning = parseFloat(document.getElementById("workDaysMorning").value) || 0;
+  const workDaysNight = parseFloat(document.getElementById("workDaysNight").value) || 0;
+
+  const nightShiftAllowance = parseFloat(document.getElementById("nightShiftAllowance").value) || 0;
+  const heatAllowance = parseFloat(document.getElementById("heatAllowance").value) || 0;
+  const deductInput = parseFloat(document.getElementById("deduction").value) || 0;
+
+  const ot1Hours = parseFloat(document.getElementById("ot1").value) || 0;
+  const ot15Hours = parseFloat(document.getElementById("ot15").value) || 0;
+  const ot2Hours = parseFloat(document.getElementById("ot2").value) || 0;
+  const ot3Hours = parseFloat(document.getElementById("ot3").value) || 0;
+
+  const leaveUnpaidDays = parseFloat(document.getElementById("leaveUnpaid").value) || 0;
+  const leaveSickNoCertDays = parseFloat(document.getElementById("leaveSickNoCert").value) || 0;
+
+  const totalWorkDays = workDaysMorning + workDaysNight;
+
+  // อัตราค่าแรงต่อวัน
+  const dailyWage = base / 30;
+  const hourlyWage = dailyWage / 8;
+
+  const otPay =
+    ot1Hours * hourlyWage * 1.0 +
+    ot15Hours * hourlyWage * 1.5 +
+    ot2Hours * hourlyWage * 2.0 +
+    ot3Hours * hourlyWage * 3.0;
+
+  const totalNightShiftAllowance = nightShiftAllowance * workDaysNight;
+  const totalHeatAllowance = heatAllowance * totalWorkDays;
+
+  // หักเงินตามวันลากิจและลาป่วยไม่มีใบรับรอง
+  const unpaidLeaveDeduct = dailyWage * leaveUnpaidDays;
+  const sickNoCertDeduct = dailyWage * leaveSickNoCertDays;
+
+  const totalDeduct = deductInput + unpaidLeaveDeduct + sickNoCertDeduct;
+
+  const total = base
+                + totalNightShiftAllowance
+                + totalHeatAllowance
+                + otPay
+                - totalDeduct;
+
+  document.getElementById("result").innerText =
+    `เงินเดือนพื้นฐาน: ${base.toLocaleString()} บาท
+จำนวนวันทำงานกะเช้า: ${workDaysMorning} วัน
+จำนวนวันทำงานกะดึก: ${workDaysNight} วัน
+ค่ากะเข้าดึก (รวม): ${totalNightShiftAllowance.toLocaleString()} บาท
+ค่าความร้อน (รวม): ${totalHeatAllowance.toLocaleString()} บาท
+OT รวม: ${otPay.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท
+รายการหักอื่นๆ: ${deductInput.toLocaleString()} บาท
+ลากิจไม่รับค่าจ้าง: ${leaveUnpaidDays} วัน หัก ${unpaidLeaveDeduct.toLocaleString()} บาท
+ลาป่วยไม่มีใบรับรอง: ${leaveSickNoCertDays} วัน หัก ${sickNoCertDeduct.toLocaleString()} บาท
+
+เงินเดือนสุทธิ: ${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} บาท`;
+}
+</script>
+
+</body>
+</html>
